@@ -1,0 +1,29 @@
+name: Build and push
+on:
+  push:
+    tags:
+      - "*"
+    branches: [main]
+jobs:
+  docker-build-push:
+    name: build ishotihadus/navidrome
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: docker/login-action@v2
+        with:
+          username: ishotihadus
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - uses: docker/metadata-action@v4
+        with:
+          images: ishotihadus/navidrome
+      - id: get_version
+        run: echo version=${GITHUB_REF#refs/tags/}
+      - uses: docker/build-push-action@v4
+        with:
+          context: .
+          file: Dockerfile
+          push: true
+          tags: |
+            ishotihadus/navidrome:latest
+            ishotihadus/navidrome:${{ steps.get_version.outputs.version }}
