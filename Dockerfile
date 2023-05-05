@@ -37,7 +37,7 @@ RUN useradd -lmUs /bin/false user && \
     cd /tmp/ffmpeg-6.0 && \
     ./configure --enable-gpl --enable-nonfree --enable-libmp3lame --enable-libfdk-aac --enable-libvorbis --enable-libopus --disable-ffplay --disable-doc && \
     make install $FFMPEG_MAKE_ARGS && \
-    cd / && \
+    rm -rf /tmp/ffmpeg-6.0 && cd / && \
     \
     install -d -o user -g user /opt/navidrome && install -d -o user -g user /var/lib/navidrome && \
     curl -L https://github.com/navidrome/navidrome/releases/download/v0.49.3/navidrome_0.49.3_Linux_x86_64.tar.gz | tar xzvf - -C /opt/navidrome/ && \
