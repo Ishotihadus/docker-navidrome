@@ -17,7 +17,7 @@ jobs:
         with:
           images: ishotihadus/navidrome
       - id: get_version
-        run: echo version=${GITHUB_REF#refs/tags/}
+        run: echo version=${GITHUB_REF#refs/tags/} | tee $GITHUB_OUTPUT
       - uses: docker/build-push-action@v4
         with:
           context: .
