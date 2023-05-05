@@ -8,6 +8,7 @@ RUN useradd -lmUs /bin/false user && \
     apt-get update && \
     apt-get upgrade && \
     apt-get install -y \
+    ca-certificates \
     libmp3lame-dev \
     libfdk-aac-dev \
     libvorbis-dev \
