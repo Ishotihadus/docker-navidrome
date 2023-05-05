@@ -1,5 +1,7 @@
 FROM debian:bookworm-slim
 
+ARG FFMPEG_MAKE_ARGS=
+
 RUN useradd -lmUs /bin/false user && \
     \
     sed -i -e's/Components: main/Components: main contrib non-free non-free-firmware/g' /etc/apt/sources.list.d/debian.sources && \
@@ -33,11 +35,11 @@ RUN useradd -lmUs /bin/false user && \
     curl -L https://ffmpeg.org/releases/ffmpeg-6.0.tar.gz | tar xzvf - -C /tmp && \
     cd /tmp/ffmpeg-6.0 && \
     ./configure --enable-gpl --enable-nonfree --enable-libmp3lame --enable-libfdk-aac --enable-libvorbis --enable-libopus --disable-ffplay --disable-doc && \
-    make install && \
+    make install $FFMPEG_MAKE_ARGS && \
     cd / && \
     \
     install -d -o user -g user /opt/navidrome && install -d -o user -g user /var/lib/navidrome && \
-    curl -L https://github.com/navidrome/navidrome/releases/download/v0.49.3/navidrome_0.49.3_Linux_$(dpkg --print-architecture).tar.gz | tar xzvf - -C /opt/navidrome/ && \
+    curl -L https://github.com/navidrome/navidrome/releases/download/v0.49.3/navidrome_0.49.3_Linux_x86_64.tar.gz | tar xzvf - -C /opt/navidrome/ && \
     chown -R user:user /opt/navidrome && \
     \
     apt-mark auto '.*' > /dev/null && \
